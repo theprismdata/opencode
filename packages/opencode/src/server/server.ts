@@ -2,6 +2,7 @@ import { Log } from "../util/log"
 import { describeRoute, generateSpecs, validator, resolver, openAPIRouteHandler } from "hono-openapi"
 import { Hono } from "hono"
 import { compress } from "hono/compress"
+import { createNodeWebSocket } from "@hono/node-ws"
 import { cors } from "hono/cors"
 import { basicAuth } from "hono/basic-auth"
 import type { UpgradeWebSocket } from "hono/ws"
@@ -10,7 +11,6 @@ import { Auth } from "../auth"
 import { Flag } from "../flag/flag"
 import { ProviderID } from "../provider/schema"
 import { createAdaptorServer, type ServerType } from "@hono/node-server"
-import { createNodeWebSocket } from "@hono/node-ws"
 import { WorkspaceRouterMiddleware } from "./router"
 import { errors } from "./error"
 import { GlobalRoutes } from "./routes/global"
@@ -42,7 +42,7 @@ export namespace Server {
     return false
   }
 
-  export const Default = lazy(() => create({}).app)
+  export const Default = lazy(() => create({}))
 
   export function ControlPlaneRoutes(upgrade: UpgradeWebSocket, app = new Hono(), opts?: { cors?: string[] }): Hono {
     return app

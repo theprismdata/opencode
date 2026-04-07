@@ -58,13 +58,16 @@ await $`bun install --linker=${link} --os="*" --cpu="*" @lydell/node-pty@1.2.0-b
 await Bun.build({
   target: "node",
   entrypoints: ["./src/node.ts"],
-  outdir: "./dist",
+  outdir: "./dist/node",
   format: "esm",
   sourcemap: "linked",
-  external: ["jsonc-parser"],
+  external: ["jsonc-parser", "@lydell/node-pty"],
   define: {
     OPENCODE_MIGRATIONS: JSON.stringify(migrations),
     OPENCODE_CHANNEL: `'${Script.channel}'`,
+  },
+  files: {
+    "opencode-web-ui.gen.ts": "",
   },
 })
 
